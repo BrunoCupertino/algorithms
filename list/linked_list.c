@@ -7,46 +7,32 @@ struct Node
     struct Node* next;
 };
 
-void printItem(struct Node* node) {
-    printf(" data:%d ", node->data);
+void printItem(struct Node* node)
+{
+    printf(" data:%d\n", node->data);
 }
 
-void printList(struct Node* node) {
+void printList(struct Node* node) 
+{
     //is it recursive function better than loops?
-    // if(node != NULL) {
+    // if (node) 
+    // {
     //     printf("%d", node->data);
     //     printList(node->next);
     // }
-    int i = 0;
-
-    while (node != NULL) {
-        printItem(node);
-        node = node->next;
-        i++;
-    }    
-}
-
-void createList(struct Node* node, int size) {
-    struct Node* current = node;
-
-    for (int i = 1; i < size + 1; i++)
+    while (node)
     {
-        struct Node* node = malloc(sizeof(struct Node));
+        printItem(node);
 
-        node->data = i;
-        node->next = NULL;    
-
-        current->next = node; 
-        current = node;
-    }
-    
+        node = node->next;
+    }    
 }
 
 struct Node* last(struct Node* head)
 {
     struct Node* lastItem = head;
 
-    while (lastItem->next != NULL)
+    while (lastItem && lastItem->next)
     {
        lastItem = lastItem->next;
     }
@@ -54,16 +40,19 @@ struct Node* last(struct Node* head)
     return lastItem;
 }
 
-void add(struct Node* head, int data)
+void insert(struct Node** head, int data)
 {
-    struct Node* lastNode = last(head);
+    struct Node* lastNode = last(*head);
 
     struct Node* newLastNode = malloc(sizeof(struct Node));
 
     newLastNode->data = data;
     newLastNode->next = NULL;    
 
-    lastNode->next = newLastNode;
+    if (!lastNode)
+        *head = newLastNode;        
+    else
+        lastNode->next = newLastNode;
 }
 
 struct Node* get(struct Node* head, int position)
@@ -81,11 +70,18 @@ struct Node* get(struct Node* head, int position)
     return item;
 }
 
-void removeAt(struct Node* head, int position)
+void removeAt(struct Node **head, int position)
 {
     int i = 0;
-    struct Node* previousItem = head;
-    struct Node* itemToRemove = head;
+    struct Node* previousItem = *head;
+    struct Node* itemToRemove = *head;
+
+    if (position == 0)
+    {
+      *head = itemToRemove->next;
+      free(itemToRemove);
+      return;
+    }
 
     while (i < position)
     {
@@ -103,16 +99,16 @@ void main()
 {
     struct Node* head = NULL;
 
-    head = malloc(sizeof(struct Node));
-    head->data = 0;
-
-    add(head, 1);
-    add(head, 2);
-    add(head, 3);
+    for (size_t i = 0; i < 10; i++)
+    {
+        insert(&head, i);
+    }
 
     printList(head);
 
-    removeAt(head, 2);
+    removeAt(&head, 0);
+    removeAt(&head, 2);
+    removeAt(&head, 5);
 
     printList(head);
 
