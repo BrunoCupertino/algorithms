@@ -14,12 +14,6 @@ void printItem(struct Node* node)
 
 void printList(struct Node* node) 
 {
-    //is it recursive function better than loops?
-    // if (node) 
-    // {
-    //     printf("%d", node->data);
-    //     printList(node->next);
-    // }
     while (node)
     {
         printItem(node);
