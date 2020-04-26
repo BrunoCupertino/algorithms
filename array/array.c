@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 struct Array
 {
@@ -44,6 +45,11 @@ int size(struct Array* array)
     return array->size;
 }
 
+bool isEmpty(struct Array* array)
+{
+    return array && array->size == 0;
+}
+
 void printArray(struct Array* array)
 {
     int siz = size(array);
@@ -55,15 +61,16 @@ void printArray(struct Array* array)
 
     printf("capacity:%d\n", array->capacity);
     printf("size:%d\n", array->size);
+    printf("isEmpty:%d\n", isEmpty(array));
 }
 
 void main()
 {
-    struct Array* array = create(20);
+    struct Array* array = create(5);
 
     int arrayCapacity = array->capacity;
 
-    for (int i = 0; i < arrayCapacity - 10; i++)
+    for (int i = 0; i < arrayCapacity; i++)
     {
         set(array, i, i + 1);  
     }
