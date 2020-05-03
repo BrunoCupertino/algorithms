@@ -2,4 +2,5 @@
 
 ## Data structures
 - array
+- multable array
 - singly linked list
