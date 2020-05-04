@@ -9,12 +9,12 @@ struct Array
     int size;
 };
 
-struct Array* create(int size)
+struct Array* create(int capacity)
 {
     struct Array* array = malloc(sizeof(struct Array));
 
-    array->data = malloc(sizeof(int) * size);
-    array->capacity = size;
+    array->data = malloc(sizeof(int) * capacity);
+    array->capacity = capacity;
 
     return array;
 }
@@ -52,9 +52,9 @@ bool isEmpty(struct Array* array)
 
 void copyArray(struct Array* oldArray, struct Array* newArray)
 {
-    int oldSize = size(oldArray);
+    int oldCapacity = capacity(oldArray);
 
-    for (int i = 0; i < oldSize; i++)
+    for (int i = 0; i < oldCapacity; i++)
     {
         int value = get(oldArray, i);
 
@@ -65,9 +65,9 @@ void copyArray(struct Array* oldArray, struct Array* newArray)
     free(oldArray);
 }
 
-struct Array* resize(struct Array* oldArray, int newSize)
+struct Array* resize(struct Array* oldArray, int newCapacity)
 {
-    struct Array* newArray = create(newSize);
+    struct Array* newArray = create(newCapacity);
 
     copyArray(oldArray, newArray);
 

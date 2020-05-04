@@ -9,12 +9,12 @@ struct Array
     int size;
 };
 
-struct Array* create(int size)
+struct Array* create(int capacity)
 {
     struct Array* array = malloc(sizeof(struct Array));
 
-    array->data = malloc(sizeof(int) * size);
-    array->capacity = size;
+    array->data = malloc(sizeof(int) * capacity);
+    array->capacity = capacity;
 
     return array;
 }
