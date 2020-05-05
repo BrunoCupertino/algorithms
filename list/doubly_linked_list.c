@@ -113,12 +113,21 @@ void removeAt(struct MyDoublyList* list, int position)
     int i = 0;
     struct Node* itemToRemove = get(list, position);    
 
-    if (position == 0)
+    if (itemToRemove == list->head)
     {
       list->head = itemToRemove->next;
       list->head->previous = NULL;
       free(itemToRemove);
+      list->count--;
       return;
+    }
+    else if (itemToRemove == list->tail)
+    {
+        list->tail = list->tail->previous;
+        list->tail->next = NULL;
+        free(itemToRemove);
+        list->count--;
+        return;
     }
 
     struct Node* previousItem = itemToRemove->previous;
@@ -135,28 +144,51 @@ void removeAt(struct MyDoublyList* list, int position)
     list->count--;
 }
 
+void reverse(struct MyDoublyList* list)
+{
+    struct Node* node = list->head;
+
+    while (node)
+    {        
+        struct Node* tmp = node->previous;
+        
+        node->previous = node->next;
+        node->next = tmp;
+
+        node = node->previous;
+    }
+    
+    node = list->head;
+
+    list->head = list->tail;
+    list->tail = node;
+}
+
 void main()
 {
     struct MyDoublyList* list = create();
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 5; i++)
     {
         insert(list, i);
     }
 
     printList(list);
 
-    // removeAt(list, 0);
-    // removeAt(list, 2);
-    // removeAt(list, 5);
+    removeAt(list, 0);
+    removeAt(list, list->count - 1);
 
-    // printList(list);
+    printList(list);
 
-    // struct Node* itemAt = get(list, 1);
-    // struct Node* firstItem = first(list);    
-    // struct Node* lastItem = last(list);    
+    struct Node* firstItem = first(list);    
+    struct Node* itemAt = get(list, 1);
+    struct Node* lastItem = last(list);    
 
-    // printItem(itemAt);
-    // printItem(firstItem);
-    // printItem(lastItem);
+    printItem(firstItem);
+    printItem(itemAt);
+    printItem(lastItem);
+
+    reverse(list);
+
+    printList(list);
 }
