@@ -5,3 +5,4 @@
 - multable array
 - singly linked list
 - doubly linked list
+- stack
