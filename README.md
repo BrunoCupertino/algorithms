@@ -6,3 +6,4 @@
 - singly linked list
 - doubly linked list
 - stack
+- queue
