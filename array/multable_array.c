@@ -47,7 +47,7 @@ int size(struct Array* array)
 
 bool isEmpty(struct Array* array)
 {
-    return array && array->size == 0;
+    return !array || array->size == 0;
 }
 
 void copyArray(struct Array* oldArray, struct Array* newArray)
