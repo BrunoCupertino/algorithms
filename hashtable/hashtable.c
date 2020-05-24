@@ -76,6 +76,8 @@ void add(struct Hashtable* hashTable, char* key, int value)
     *item = newKeyValuePair;
 
     hashTable->size++;
+
+    //TODO: resize;
 }
 
 bool containsKey(struct Hashtable* hashTable, char* key)
@@ -117,7 +119,9 @@ void removeItem(struct Hashtable* hashTable, char* key)
 
             free(*item);
 
-            hashTable->size--;
+            hashTable->size--;            
+
+            //TODO: resize;
 
             return;
         }        
