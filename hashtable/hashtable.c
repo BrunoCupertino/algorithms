@@ -48,9 +48,7 @@ int get(struct Hashtable* hashTable, char* key)
 
     struct KeyValuePair **item = &*&*(hashTable->data + position);
 
-    struct KeyValuePair *it = *item;
-
-    return it->value;
+    return (*(item))->value;
 }
 
 void add(struct Hashtable* hashTable, char* key, int value)
