@@ -6,15 +6,22 @@
 
 struct Hashtable
 {
-    int* data;
+    struct KeyValuePair** data;
     int size;
+};
+
+struct KeyValuePair
+{
+    char* key;
+    int value;
+    struct KeyValuePair* next;
 };
 
 struct Hashtable* create()
 {
     struct Hashtable* hashTable = malloc(sizeof(struct Hashtable));
 
-    hashTable->data = malloc(sizeof(int) * M);
+    hashTable->data = malloc(sizeof(struct KeyValuePair*) * M);
 
     return hashTable;
 }
@@ -39,9 +46,11 @@ int get(struct Hashtable* hashTable, char* key)
 
     int position = hashCode % M;
 
-    int value = *(hashTable->data + position);
+    struct KeyValuePair **item = &*&*(hashTable->data + position);
 
-    return value;
+    struct KeyValuePair *it = *item;
+
+    return it->value;
 }
 
 void add(struct Hashtable* hashTable, char* key, int value)
@@ -50,24 +59,30 @@ void add(struct Hashtable* hashTable, char* key, int value)
 
     int position = hashCode % M;
 
-    printf("position %d\n", position);
+    struct KeyValuePair **item = &*&*(hashTable->data + position);
 
-    int *item = &*(hashTable->data + position);
+    printf("item: %p\n", item);
 
-    //TODO: handle collisions, add linked list
+    struct KeyValuePair* newKeyValuePair = malloc(sizeof(struct KeyValuePair));
+
+    //TODO: handle collisions
+    newKeyValuePair->key = key;
+    newKeyValuePair->value = value;
     
-    *item = value;
+    *item = newKeyValuePair;
 
     hashTable->size++;
 }
 
 bool containsKey(struct Hashtable* hashTable, char* key)
 {
-    int hashCode = hash(key);
+    // int hashCode = hash(key);
 
-    int position = hashCode % M;
+    // int position = hashCode % M;
 
-    int value = *(hashTable->data + position);
+    // int value = *(hashTable->data + position);
+
+    return true;
 }
 
 int size(struct Hashtable* hashTable)
