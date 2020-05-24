@@ -48,7 +48,17 @@ int get(struct Hashtable* hashTable, char* key)
 
     struct KeyValuePair **item = &*&*(hashTable->data + position);
 
-    return (*(item))->value;
+    while (*item)
+    {
+        // printf("key: %s\n", (*(item))->key);
+
+        if (strcmp((*(item))->key, key) == 0)
+            return (*(item))->value;
+        
+        *item = (*(item))->next;
+    }
+
+    return -1;
 }
 
 void add(struct Hashtable* hashTable, char* key, int value)
@@ -59,15 +69,21 @@ void add(struct Hashtable* hashTable, char* key, int value)
 
     struct KeyValuePair **item = &*&*(hashTable->data + position);
 
-    printf("item: %p\n", item);
+    // printf("position: %d\n", position);
+    // printf("item: %p\n", item);
+    // printf("slot null?: %d\n", *item == NULL);
 
     struct KeyValuePair* newKeyValuePair = malloc(sizeof(struct KeyValuePair));
 
     //TODO: handle collisions
     newKeyValuePair->key = key;
     newKeyValuePair->value = value;
+    newKeyValuePair->next = *item;
     
-    *item = newKeyValuePair;
+    if (!*item)
+        *item = newKeyValuePair;
+    else
+        (*(item))->next = newKeyValuePair;
 
     hashTable->size++;
 }
@@ -101,11 +117,15 @@ void main()
     add(hashTable, "barcelona", 3);
     add(hashTable, "real madrid", 4);
     add(hashTable, "liverpool", 1);
+    add(hashTable, "milan", 1);
+    add(hashTable, "bayern munich", 1);
     add(hashTable, "palmeiras", 0);
 
     printf("corinthians: %d\n", get(hashTable, "corinthians"));
     printf("barcelona: %d\n", get(hashTable, "barcelona"));
     printf("real madrid: %d\n", get(hashTable, "real madrid"));
     printf("liverpool: %d\n", get(hashTable, "liverpool"));
-    printf("palmeiras: %d\n", get(hashTable, "palmeiras "));
+    printf("milan: %d\n", get(hashTable, "milan"));
+    printf("bayern munich: %d\n", get(hashTable, "bayern munich"));
+    printf("palmeiras: %d\n", get(hashTable, "palmeiras"));
 }
