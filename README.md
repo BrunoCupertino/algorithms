@@ -9,3 +9,6 @@ Implementation of some data structures and algorithms in C language.
 - stack
 - queue
 - hash table
+
+## Algorithms
+- binary search
